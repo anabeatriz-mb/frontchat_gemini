@@ -3,37 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chatbot com Flask-SocketIO</title>
+    <title>TripBuddy — Roteiros de Viagem Inteligentes</title>
+    <!-- Importação de fontes modernas e ícones para o tema de viagem -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="chat-container">
-      <figure>
-          <img src="https://img.freepik.com/vetores-premium/chatbot-rede-neural-ai-servidores-e-tecnologia-de-robos-cute-chatbot-ai-personagem_651808-563.jpg?semt=ais_hybrid&w=740">
-      </figure>
-        <div id="controles">
-            <button id="iniciarBtn">Iniciar conversa</button>
-            <button id="limparBtn">Limpar tela</button>
-            <button id="encerrarBtn">Encerrar conversa</button>
-      </div>
-    </div>
-
-    <div class="chat-container">
-        <header class="chat-header">
-            <h1>Chatbot Amigável</h1>
-            <div id="connection-status" class="status-offline">Conectando...</div>
-        </header>
-        <div id="chat-box" class="chat-box">
+    <div class="dashboard-wrapper">
+        
+        <!-- COLUNA ESQUERDA: Painel de Embarque e Controles -->
+        <aside class="sidebar">
+            <div class="brand-area">
+                <i class="fa-solid fa-earth-americas brand-icon"></i>
+                <div class="brand-text">
+                    <h2>TripBuddy</h2>
+                    <span>AI Travel Planner</span>
+                </div>
             </div>
-        <footer class="chat-input-area">
-            <input type="text" id="message-input" placeholder="Digite sua mensagem aqui...">
-            <button id="send-button">Enviar</button>
-        </footer>
+
+            <!-- Card de Dica de Viagem Dinâmica (Substituindo o Robô) -->
+            <div class="travel-card">
+                <div class="card-overlay"></div>
+                <div class="card-content">
+                    <span class="card-tag">Dica de Hoje</span>
+                    <h3>Arrume as malas de forma inteligente</h3>
+                    <p>Defina seu destino no chat ao lado e nossa IA irá analisar a previsão do tempo para sugerir o que levar.</p>
+                </div>
+            </div>
+
+            <!-- Seção de Ações e Estado da Sessão -->
+            <div class="session-management">
+                <h3>Sua Jornada</h3>
+                <div id="controles">
+                    <button id="iniciarBtn" class="btn-sidebar"><i class="fa-solid fa-plane-departure"></i> Iniciar Nova Viagem</button>
+                    <button id="limparBtn" class="btn-sidebar"><i class="fa-solid fa-trash-can"></i> Limpar Roteiro</button>
+                    <button id="encerrarBtn" class="btn-sidebar"><i class="fa-solid fa-rectangle-xmark"></i> Encerrar Conexão</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- COLUNA DIREITA: O Chat Principal -->
+        <main class="chat-wrapper">
+            <header class="chat-header">
+                <div class="header-info">
+                    <h1>Assistente de Roteiros</h1>
+                    <p>Informe a cidade, quantidade de dias e a data da viagem.</p>
+                </div>
+                <div class="status-container">
+                    <div id="connection-status" class="status-offline">
+                        <span class="status-dot"></span> <span class="status-text">Desconectado</span>
+                    </div>
+                </div>
+            </header>
+
+            <div id="chat-box" class="chat-box">
+                <!-- As mensagens geradas dinamicamente entram aqui -->
+            </div>
+
+            <footer class="chat-input-area">
+                <div class="input-container">
+                    <input type="text" id="message-input" placeholder="Ex: Roteiro de 4 dias em Buenos Aires com clima frio...">
+                    <button id="send-button" aria-label="Enviar mensagem">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+            </footer>
+        </main>
+
     </div>
 
+    <!-- Scripts de dependência -->
     <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
-  
+
+

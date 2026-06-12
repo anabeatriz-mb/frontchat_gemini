@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
         messageElement.appendChild(textSpan);
 
         chatBox.appendChild(messageElement);
-        chatBox.scrollTop = chatBox.scrollHeight;
+        messageElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     // Função para habilitar/desabilitar o chat
@@ -62,11 +62,38 @@ document.addEventListener('DOMContentLoaded', () => {
         sendButton.disabled = !enabled;
     }
 
+    // Cria e exibe o indicador de digitação do bot
+    function showTypingIndicator() {
+        if (document.getElementById('typing-indicator')) return;
+
+        const typingElement = document.createElement('div');
+        typingElement.id = 'typing-indicator';
+        typingElement.className = 'typing-indicator';
+        typingElement.innerHTML = `
+            <strong>Bot está digitando</strong>
+            <span class="typing-dots">
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+                <span class="typing-dot"></span>
+            </span>
+        `;
+
+        chatBox.appendChild(typingElement);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function hideTypingIndicator() {
+        const typingElement = document.getElementById('typing-indicator');
+        if (typingElement) {
+            typingElement.remove();
+        }
+    }
+
     // Inicialmente desativa o chat
     setChatEnabled(false);
     connectionStatus.textContent = 'Desconectado';
     connectionStatus.className = 'status-offline';
-    addMessageToChat('Status', 'Clique em "Iniciar conversa" para começar.', 'status');
+    addMessageToChat('Status', 'Clique em "Iniciar Nova Viagem" para começar.', 'status');
 
     // Função para conectar ao servidor
     function iniciarConversa() {
@@ -97,10 +124,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         socket.on('nova_mensagem', (data) => {
+            hideTypingIndicator();
             addMessageToChat(data.remetente, data.texto);
         });
 
         socket.on('erro', (data) => {
+            hideTypingIndicator();
             addMessageToChat('Erro', data.erro, 'error');
         });
     }
@@ -130,6 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
             socket.emit('enviar_mensagem', { mensagem: messageText });
             messageInput.value = '';
             messageInput.focus();
+            showTypingIndicator();
         } else {
             addMessageToChat('Erro', 'Não conectado ao servidor.', 'error');
         }
